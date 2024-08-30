@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="${_csrf.token}"/>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #sidebar {
+      height: 100vh;
+      width: 250px;
+      background: #212120;
+      color: #979796;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      transition: width 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #495057;
+    }
+
+    .submenu a {
+      padding: 15px 20px;
+      text-decoration: none;
+      font-size: 10px;
+      color: #000000;
+      display: block;
+    }
+
+    .submenu a:hover {
+      background-color: #495057;
+    }
+
+    .content {
+      margin-left: 260px; /* Sidebar genişliğine göre boşluk ayarlama */
+      padding: 20px;
+    }
+
+    .table-container {
+      max-height: 300px; /* İhtiyacınıza göre bu değeri ayarlayabilirsiniz */
+      overflow-y: auto; /* Dikey kaydırma çubuğu ekler */
+
+    }
+
+    .three-section-layout {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .section-left, .section-right {
+      flex: 1 1 48%;
+      padding: 20px;
+    }
+
+    .section-full {
+      flex-basis: 100%;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .table-container table {
+      width: 100%;
+    }
+
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+    }
+  </style>
+  <title>Guests Management</title>
+</head>
+<body class="bg-light" style="background: white">
+
+<div id="sidebar" class="border-left" style="height: 100vh;
+        width: 250px;/* Set sidebar height to 100% of the viewport height */
+        display: flex;
+        flex-direction: column; /* Arrange items vertically */
+        transition: width 0.3s;
+        background: #ffffff;
+        color: #979796;">
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;" class="active">Dashboard</a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Employees</a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #007bff; display: block;">Visitors</a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Visitor Request</a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Complete Visit Info</a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Pre-registers</a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">My Visit Code</a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Check-in</a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Reports <span class="badge bg-danger">Coming Soon</span></a>
+  <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Histories</a>
+  <a href="#sitesOrgSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action"  aria-expanded="false" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Sites & Org</a>
+  <div id="sitesOrgSubmenu" class="collapse submenu">
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Departments</a>
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Designations</a>
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Sites</a>
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Message Templates</a>
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Site Configuration</a>
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Check-in Points</a>
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Devices</a>
+  </div>
+  <a href="#managementSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action"  aria-expanded="false" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Management</a>
+  <div id="managementSubmenu" class="collapse submenu">
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Authorization</a>
+    <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">System</a>
+  </div>
+</div>
+
+<div class="content" style="background: white">
+  <h2 class="text-center mb-4">Guest Information Form</h2>
+  <form class="p-4 shadow-sm bg-white rounded">
+    <div class="mb-3">
+      <label for="firstname" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="lastname" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+    </div>
+
+    <div class="mb-3">
+      <label for="phoneNumber" class="form-label">Phone Number</label>
+      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="visitReason" class="form-label">Visit Reason</label>
+      <textarea class="form-control" id="visitReason" name="visitReason" rows="3" placeholder="Enter visit reason"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="visitStartDate" class="form-label">Visit Start Date</label>
+      <input type="datetime-local" class="form-control" id="visitStartDate" name="visitStartDate" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="visitEndDate" class="form-label">Visit End Date</label>
+      <input type="datetime-local" class="form-control" id="visitEndDate" name="visitEndDate">
+    </div>
+
+    <div class="mb-3">
+      <label for="nationalNumber" class="form-label">National Number</label>
+      <input type="text" class="form-control" id="nationalNumber" name="nationalNumber" placeholder="Enter national number">
+    </div>
+
+    <div class="mb-3">
+      <label for="isAllowed" class="form-label">Is Allowed</label>
+      <select class="form-select" id="isAllowed" name="isAllowed">
+        <option value="Allowed">Allowed</option>
+        <option value="Not Allowed" selected>Not Allowed</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="checkIn" class="form-label">Check-In Status</label>
+      <select class="form-select" id="checkIn" name="checkIn">
+        <option value="Checked In">Checked In</option>
+        <option value="Not Checked In" selected>Not Checked In</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="checkInTime" class="form-label">Check-In Time</label>
+      <input type="datetime-local" class="form-control" id="checkInTime" name="checkInTime">
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="reset" class="btn btn-secondary">Reset</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/guestPagescript.js}"></script>
+<script th:src="@{/js/guestPendingAndTodaysScript.js}"></script>
+</body>
+</html>

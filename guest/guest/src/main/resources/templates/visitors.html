@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="${_csrf.token}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #sidebar {
+            height: 100vh;
+            width: 250px;
+            background: #212120;
+            color: #979796;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            transition: width 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .submenu a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 10px;
+            color: #000000;
+            display: block;
+        }
+
+        .submenu a:hover {
+            background-color: #495057;
+        }
+
+        .content {
+            margin-left: 260px; /* Sidebar genişliğine göre boşluk ayarlama */
+            padding: 20px;
+        }
+
+        .table-container {
+            max-height: 300px; /* İhtiyacınıza göre bu değeri ayarlayabilirsiniz */
+            overflow-y: auto; /* Dikey kaydırma çubuğu ekler */
+
+        }
+
+        .three-section-layout {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .section-left, .section-right {
+            flex: 1 1 48%;
+            padding: 20px;
+        }
+
+        .section-full {
+            flex-basis: 100%;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .table-container table {
+            width: 100%;
+        }
+
+        .table-container {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
+    <title>Guests Management</title>
+</head>
+<body class="bg-light" style="background: white">
+
+<div id="sidebar" class="border-left" style="height: 100vh;
+        width: 250px;/* Set sidebar height to 100% of the viewport height */
+        display: flex;
+        flex-direction: column; /* Arrange items vertically */
+        transition: width 0.3s;
+        background: #ffffff;
+        color: #979796;">
+    <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;" class="active">Dashboard</a>
+    <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Employees</a>
+    <a href="/visitors" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #007bff; display: block;">Visitors</a>
+    <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Visitor Request</a>
+    <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Complete Visit Info</a>
+    <a href="/register" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Visitor Register</a>
+    <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">My Visit Code</a>
+    <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Check-in</a>
+    <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Reports <span class="badge bg-danger">Coming Soon</span></a>
+    <a href="#" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Histories</a>
+    <a href="#sitesOrgSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action"  aria-expanded="false" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Sites & Org</a>
+    <div id="sitesOrgSubmenu" class="collapse submenu">
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Departments</a>
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Designations</a>
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Sites</a>
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Message Templates</a>
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Site Configuration</a>
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Check-in Points</a>
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Devices</a>
+    </div>
+    <a href="#managementSubmenu" data-bs-toggle="collapse" class="list-group-item list-group-item-action"  aria-expanded="false" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Management</a>
+    <div id="managementSubmenu" class="collapse submenu">
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">Authorization</a>
+        <a href="#" class="list-group-item list-group-item-action" style="padding: 15px 20px; text-decoration: none; font-size: 12px; color: #000000; display: block;">System</a>
+    </div>
+</div>
+
+<div class="content" style="background: white">
+    <div class="three-section-layout">
+        <!-- Left Section (Approval Table) -->
+        <div class="section-left">
+            <h2 class="text-center">Pending Approvals</h2>
+            <div class="table-container">
+                <table class="table table-borderless table-hover">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Allowed</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="guestsPendingTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Right Section (Today's Visits) -->
+        <div class="section-right">
+            <h2 class="text-center">Today's Visits</h2>
+            <div class="table-container">
+                <table class="table table-borderless table-hover">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Visit Reason</th>
+                        <th>Visit Time</th>
+                    </tr>
+                    </thead>
+                    <tbody id="guestsTodayTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Full-width Section (Guests Table) -->
+        <div class="section-full">
+            <h2 class="text-center">All Guests</h2>
+            <div class="table-container">
+                <table class="table table-borderless table-hover">
+                    <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Visit Reason</th>
+                        <th>Visit Start Date</th>
+                        <th>Visit End Date</th>
+                        <th>Allowed</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="guestsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Kayıt Formu Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add New Guest</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addGuestForm" autocomplete="on">
+                        <div class="mb-3">
+                            <label for="add-firstname" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="add-firstname" name="firstname" autocomplete="given-name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add-lastname" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="add-lastname" name="lastname" autocomplete="family-name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="add-email" name="email" autocomplete="email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add-phoneNumber" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="add-phoneNumber" name="phoneNumber" autocomplete="tel" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add-visitReason" class="form-label">Visit Reason</label>
+                            <input type="text" class="form-control" id="add-visitReason" name="visitReason" autocomplete="organization-title" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add-visitStartDate" class="form-label">Visit Start Date</label>
+                            <input type="datetime-local" class="form-control" id="add-visitStartDate" name="visitStartDate" autocomplete="bday-start" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add-visitEndDate" class="form-label">Visit End Date</label>
+                            <input type="datetime-local" class="form-control" id="add-visitEndDate" name="visitEndDate" autocomplete="bday-end" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="add-isAllowed" class="form-label">Is Allowed</label>
+                            <select class="form-select" id="add-isAllowed" name="isAllowed">
+                                <option value="Allowed">Allowed</option>
+                                <option value="Not Allowed">Not Allowed</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAdd()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Güncelleme Formu Modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Guest</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateGuestForm" autocomplete="on">
+                        <input type="hidden" id="update-id" name="id">
+
+                        <div class="mb-3">
+                            <label for="update-firstname" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="update-firstname" name="firstname" autocomplete="given-name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="update-lastname" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="update-lastname" name="lastname" autocomplete="family-name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="update-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="update-email" name="email" autocomplete="email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="update-phoneNumber" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="update-phoneNumber" name="phoneNumber" autocomplete="tel" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="update-visitReason" class="form-label">Visit Reason</label>
+                            <input type="text" class="form-control" id="update-visitReason" name="visitReason" autocomplete="organization-title" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="update-visitStartDate" class="form-label">Visit Start Date</label>
+                            <input type="datetime-local" class="form-control" id="update-visitStartDate" name="visitStartDate" autocomplete="bday-start" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="update-visitEndDate" class="form-label">Visit End Date</label>
+                            <input type="datetime-local" class="form-control" id="update-visitEndDate" name="visitEndDate" autocomplete="bday-end" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="update-isAllowed" class="form-label">Allowed</label>
+                            <select class="form-select" id="update-isAllowed" name="isAllowed">
+                                <option value="Allowed">Allowed</option>
+                                <option value="Not Allowed">Not Allowed</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitUpdate()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/guestPagescript.js}"></script>
+<script th:src="@{/js/guestPendingAndTodaysScript.js}"></script>
+</body>
+</html>
