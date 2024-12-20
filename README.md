@@ -47,8 +47,6 @@ Enhanced security and real-time tracking of visitor data.
 
 Integration of image processing for identity validation.
 
-GitHub Repository README Template
-
 Visitor Request Management Application
 
 ## Overview
@@ -59,7 +57,7 @@ This project is a visitor request management system that uses image processing f
 
 Visitor entry logging and request tracking.
 
-Image recognition for identity validation.
+!Image recognition for identity validation.
 
 Secure authentication and data encryption.
 
@@ -75,7 +73,7 @@ Database: PostgreSQL
 
 
 ### Future Enhancements
-
+Image recognition for identity validation.
 Add notifications via email or SMS.
 
 
